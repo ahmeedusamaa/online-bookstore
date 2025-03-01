@@ -1,4 +1,4 @@
-import { logger } from "./LoggerMiddleware";
+import { logger } from "./LoggerMiddleware.js";
 
 export const errHandler = (err, req, res, next) => {
   logger.error(`Error: ${err.message}`);
