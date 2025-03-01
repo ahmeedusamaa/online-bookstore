@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import { errHandler } from "./middlewares/ErrHandlerMiddleware.js";
 import { loggerMiddleware, logger } from "./middlewares/LoggerMiddleware.js";
+import router from "./routes/index.js";
 
 dotenv.config();
 const app = express();
@@ -17,6 +18,7 @@ mongoose.connection.on("error", (err) => {
   process.exit(1);
 });
 
+app.use(router);
 app.use(errHandler);
 
 const PORT = process.env.PORT || 5000;
