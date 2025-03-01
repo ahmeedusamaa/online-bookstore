@@ -1,14 +1,11 @@
 import express from "express";
-import { errHandler } from "./middlewares/ErrHandlerMiddleware.js";
-import { loggerMiddleware, logger } from "./middlewares/LoggerMiddleware.js";
 import mongoose from "mongoose";
 import dotenv from 'dotenv';
+import { errHandler } from "./middlewares/ErrHandlerMiddleware.js";
+import { loggerMiddleware, logger } from "./middlewares/LoggerMiddleware.js";
+
 dotenv.config();
-
-
-
 const app = express();
-
 app.use(express.json());
 app.use(loggerMiddleware);
 
