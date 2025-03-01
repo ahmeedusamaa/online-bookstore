@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import bcrypt from 'bcrypt';
 
 
+
 const userSchema = new mongoose.Schema({
     Name: {
         type: String,
@@ -25,7 +26,12 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ['admin', 'customer'],
         default: 'customer'
-    }
+    },
+    Cart: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Book'
+    }]
+
 }, {
     timestamps: true
 });

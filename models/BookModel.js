@@ -21,10 +21,6 @@ const bookSchema = new mongoose.Schema({
         min: [0, 'Stock cannot be negative'],
         default: 0
     },
-    ReviewID: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Review'
-    }],
     Image: {
         type: String,
         match: [/\.(jpg|jpeg|png|gif)$/, 'Invalid image format']
