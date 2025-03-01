@@ -1,5 +1,7 @@
-export const errHandler = () => {
-  console.error(`Error: ${err.message}`);
+import { logger } from "./LoggerMiddleware";
+
+export const errHandler = (err, req, res, next) => {
+  logger.error(`Error: ${err.message}`);
 
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
 
