@@ -7,7 +7,9 @@ export const userAuth = (req, res, next) => {
   let token = req.headers.authorization;
 
   if (!token) {
-    return res.status(401).json({ message: "Not authorized, token missing" });
+    const error = "Not authorized, token missing";
+    res.status(401);
+    return next(error);
   }
 
   if (token.startsWith("Bearer ")) {
@@ -17,7 +19,8 @@ export const userAuth = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
-    next();
+    res.status(401);
+    return next(new Error("Invalid Token"));
   } catch (error) {
     return res.status(401).json({ message: "Invalid Token" });
   }
