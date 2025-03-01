@@ -39,7 +39,7 @@ export const updateReview = async (req, res) => {
         const review = await Review.findById(req.params.id);
 
         if (!review) return res.status(404).json({ status: "fail", message: "Review not found" });
-        if (!req.user || !req.user.id) { // ✅ Ensure req.user exists
+        if (!req.user || !req.user.id) { 
             return res.status(401).json({ status: "fail", message: "Unauthorized - No user found" });
         }
         if (review.UserID.toString() !== req.user.id) {
