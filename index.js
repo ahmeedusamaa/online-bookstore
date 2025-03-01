@@ -14,12 +14,12 @@ mongoose.connect(
   `mongodb+srv://${process.env.ATLAS_USER_NAME}:${process.env.ATLAS_PASSWORD}@online-bookstore.ql6vl.mongodb.net/online-bookstore?retryWrites=true&w=majority&appName=online-bookstore`
 );
 
-mongoose.connection.on('connected', () => {
-  logger.info(`Connected to the database successfully`)
+mongoose.connection.on("connected", () => {
+  logger.info(`Connected to the database successfully`);
 });
 
 mongoose.connection.on("error", (err) => {
-  logger.info(`MongoDB connection error: ${err}`)
+  logger.info(`MongoDB connection error: ${err}`);
   process.exit(1);
 });
 
