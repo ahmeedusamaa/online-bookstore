@@ -1,21 +1,12 @@
-import express from 'express';
+import express from "express";
+import { createReview, getReviewById, updateReview, deleteReview } from "../controllers/ReviewsController.js";
+import authMiddleware from "../middlewares/authMiddleware.js"; 
 
-const reviewsRouter = express.Router();
+const router = express.Router();
 
-reviewsRouter.post('/', (req, res) => {
+router.post("/", authMiddleware, createReview); 
+router.get("/:id", getReviewById); 
+router.put("/:id", authMiddleware, updateReview); 
+router.delete("/:id", authMiddleware, deleteReview); 
 
-});
-
-reviewsRouter.get('/:id', (req, res) => {
-
-});
-
-reviewsRouter.patch('/:id', (req, res) => {
-
-});
-
-reviewsRouter.delete('/:id', (req, res) => {
-
-});
-
-export default reviewsRouter;
+export default router;
