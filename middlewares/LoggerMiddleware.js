@@ -1,3 +1,4 @@
+import dotenv from "dotenv";
 import winston from "winston";
 import path from path;
 
