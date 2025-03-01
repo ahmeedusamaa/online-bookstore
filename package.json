@@ -18,7 +18,7 @@
     "url": "https://github.com/ahmeedusamaa/Online-Bookstore/issues"
   },
   "homepage": "https://github.com/ahmeedusamaa/Online-Bookstore#readme",
-  "description": "",
+  "description": "An advanced e-commerce platform for book shopping, built using Express.js. This project allows users to browse books, manage their cart, place orders, and leave reviews.",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "bcryptjs": "^3.0.2",
@@ -30,5 +30,10 @@
     "mongoose": "^8.11.0",
     "nodemon": "^3.1.9",
     "winston": "^3.17.0"
-  }
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "devDependencies": {},
+  "keywords": []
 }
