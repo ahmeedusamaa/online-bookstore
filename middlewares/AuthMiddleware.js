@@ -11,8 +11,7 @@ export const userAuth = (req, res, next) => {
     const error = "Not authorized, token missing";
     logger.warn(`${req.method} ${req.url} - ${errorMessage}`);
     res.status(401);
-    return next(error);
-  }
+    return next(error);  }
 
   if (token.startsWith("Bearer ")) {
     token = token.split(" ")[1];
@@ -27,6 +26,6 @@ export const userAuth = (req, res, next) => {
     const errorMessage = "Unauthorized access - Invalid Token";
     logger.warn(`${req.method} ${req.url} - ${errorMessage}`);
     res.status(401);
-    return next(new Error(errorMessage));
-  }
+    return next(new Error("Invalid Token"));  }
 };
+
