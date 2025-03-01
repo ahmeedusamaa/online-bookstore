@@ -26,6 +26,6 @@ mongoose.connection.on("error", (err) => {
 app.use(router);
 app.use(errHandler);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => logger.info(`Server started on port ${PORT}`));
