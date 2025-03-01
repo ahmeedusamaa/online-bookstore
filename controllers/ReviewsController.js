@@ -6,14 +6,15 @@ export const createReview = async (req, res) => {
         const { bookId, rating, comment } = req.body;
         const userId = req.user.id; 
 
+        if (!userId) {
+            return res.status(400).json({ status: "fail", message: "userId is required for testing" });
+        }
+
         const book = await Book.findById(bookId);
         if (!book) return res.status(404).json({ status: "fail", message: "Book not found" });
 
-        const review = new Review({ User_ID: userId, Book_ID: bookId, Rating: rating, Comment: comment });
+        const review = new Review({ UserID: userId, BookID: bookId, Rating: rating, Review: comment });
         await review.save();
-
-        book.ReviewID.push(review._id);
-        await book.save();
 
         res.status(201).json({ status: "success", data: review });
     } catch (error) {
@@ -21,9 +22,10 @@ export const createReview = async (req, res) => {
     }
 };
 
+
 export const getReviewById = async (req, res) => {
     try {
-        const review = await Review.findById(req.params.id).populate("User_ID", "Name");
+        const review = await Review.findById(req.params.id).populate("UserID", "Name");
         if (!review) return res.status(404).json({ status: "fail", message: "Review not found" });
         res.status(200).json({ status: "success", data: review });
     } catch (error) {
@@ -37,10 +39,15 @@ export const updateReview = async (req, res) => {
         const review = await Review.findById(req.params.id);
 
         if (!review) return res.status(404).json({ status: "fail", message: "Review not found" });
-        if (review.User_ID.toString() !== req.user.id) return res.status(403).json({ status: "fail", message: "Unauthorized" });
+        if (!req.user || !req.user.id) { 
+            return res.status(401).json({ status: "fail", message: "Unauthorized - No user found" });
+        }
+        if (review.UserID.toString() !== req.user.id) {
+            return res.status(403).json({ status: "fail", message: "Unauthorized" });
+        }
 
         review.Rating = rating || review.Rating;
-        review.Comment = comment || review.Comment;
+        review.Review = comment || review.Review;
         await review.save();
 
         res.status(200).json({ status: "success", data: review });
@@ -53,7 +60,7 @@ export const deleteReview = async (req, res) => {
     try {
         const review = await Review.findById(req.params.id);
         if (!review) return res.status(404).json({ status: "fail", message: "Review not found" });
-        if (review.User_ID.toString() !== req.user.id) return res.status(403).json({ status: "fail", message: "Unauthorized" });
+        if (review.UserID.toString() !== req.user.id) return res.status(403).json({ status: "fail", message: "Unauthorized" });
 
         await review.deleteOne();
         res.status(200).json({ status: "success", message: "Review deleted" });
