@@ -7,7 +7,9 @@ export const userAuth = (req, res, next) => {
   let token = req.headers.authorization;
 
   if (!token) {
-    return res.status(401).json({ message: "Not authorized, token missing" });
+    const error = "Not authorized, token missing";
+    res.status(401);
+    return next(error);
   }
 
   if (token.startsWith("Bearer ")) {
@@ -19,6 +21,7 @@ export const userAuth = (req, res, next) => {
     req.user = decoded;
     next();
   } catch (error) {
-    return res.status(401).json({ message: "Invalid Token" });
+    res.status(401);
+    return next(new Error("Invalid Token"));
   }
 };
