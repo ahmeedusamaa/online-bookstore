@@ -2,16 +2,17 @@ import express from 'express';
 import booksController from '../controllers/books.js';
 import userAuth from '../middlewares/AuthMiddleware.js';
 import { logger } from '../middlewares/LoggerMiddleware.js';
+import upload from '../middlewares/multer.js';
 
 const booksRouter = express.Router();
 
-booksRouter.post('/', userAuth, async (req, res, next) => {
+booksRouter.post('/', userAuth, upload.single('Image'), async (req, res, next) => {
     if (req.user.role !== 'admin') {
         logger.warn(`Unauthorized user list access attempt by: ${req.user.id}`);
         return res.status(403).send({ status: "failed", data: "You do not have permission to perform this action." });
     }
 
-    await booksController.create(...req.body)
+    await booksController.create(req.body)
         .then(data => {
             logger.info(`Admin with id [${req.user.id}] created a new book`);
             res.status(200).send({ status: "success", data: data })
