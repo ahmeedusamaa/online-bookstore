@@ -23,6 +23,8 @@ mongoose.connection.on("error", (err) => {
   process.exit(1);
 });
 
+app.use('/covers', express.static('uploads'));
+
 app.use(router);
 app.use(errHandler);
 
