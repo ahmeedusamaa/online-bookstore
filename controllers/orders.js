@@ -28,4 +28,4 @@ const remove = (orderId) => {
     return Order.findByIdAndDelete(orderId);
 };
 
-export default { create, getMany, getById, getByUserId, remove };
+export default { create, getMany, getById, remove };

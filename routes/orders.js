@@ -1,5 +1,6 @@
 import express from 'express';
 import userAuth from '../middlewares/AuthMiddleware.js';
+import ordersController from '../controllers/orders.js';
 
 
 const ordersRouter = express.Router();
@@ -11,7 +12,7 @@ ordersRouter.post("/", userAuth, async (req, res, next) => {
 });
 
 ordersRouter.get("/", userAuth, async (req, res, next) => {
-    if (req.user.Role !== "admin") {
+    if (req.user.role !== "admin") {
         return res.status(403).send({ status: "error", message: "Access denied" });
     }
     const limit = req.query.limit || 5;
@@ -22,7 +23,7 @@ ordersRouter.get("/", userAuth, async (req, res, next) => {
 });
 
 ordersRouter.get("/:id", userAuth, async (req, res, next) => {
-    if (req.user.Role !== "admin") {
+    if (req.user.role !== "admin") {
         return res.status(403).send({ status: "error", message: "Access denied" });
     }
     await ordersController.getById(req.params.id)
@@ -31,7 +32,7 @@ ordersRouter.get("/:id", userAuth, async (req, res, next) => {
 });
 
 ordersRouter.delete("/:id", userAuth, async (req, res, next) => {
-    if (req.user.Role !== "admin") {
+    if (req.user.role !== "admin") {
         return res.status(403).send({ status: "error", message: "Access denied" });
     }
 
