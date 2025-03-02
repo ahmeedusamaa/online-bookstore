@@ -1,45 +1,73 @@
 import express from 'express';
 import booksController from '../controllers/books.js';
 import userAuth from '../middlewares/AuthMiddleware.js';
+import { logger } from '../middlewares/LoggerMiddleware.js';
 
 const booksRouter = express.Router();
 
-booksRouter.post('/', async (req, res, next) => {
+booksRouter.post('/', userAuth, async (req, res, next) => {
+    if (req.user.role !== 'admin') {
+        logger.warn(`Unauthorized user list access attempt by: ${req.user.id}`);
+        return res.status(403).send({ status: "failed", data: "You do not have permission to perform this action." });
+    }
+
     await booksController.create(...req.body)
-        .then(data => res.status(200).send({ status: "success", data: data }))
-        .catch(error => next(error));
+        .then(data => {
+            logger.info(`Admin with id [${req.user.id}] created a new book`);
+            res.status(200).send({ status: "success", data: data })
+        }).catch(error => next(error));
 });
 
-booksRouter.get('/', async (req, res, next) => {
+booksRouter.get('/', userAuth, async (req, res, next) => {
     const limit = req.query.limit || 4;
     const skip = ((req.query.page || 1) - 1) * limit;
     await booksController.getMany(skip, limit)
-        .then(data => res.status(200).send({ status: "success", data: data }))
-        .catch(error => next(error));
+        .then(data => {
+            logger.info(`User with id [${req.user.id}] read books data`);
+            res.status(200).send({ status: "success", data: data })
+        }).catch(error => next(error));
 });
 
-booksRouter.get('/:id', async (req, res, next) => {
+booksRouter.get('/:id', userAuth, async (req, res, next) => {
     await booksController.getById(req.params.id)
-        .then(data => res.status(200).send({ status: "success", data: data }))
-        .catch(error => next(error));
+        .then(data => {
+            logger.info(`User with id [${req.user.id}] read book data with id: [${req.params.id}]`);
+            res.status(200).send({ status: "success", data: data })
+        }).catch(error => next(error));
 });
 
-booksRouter.get('/:id/reviews', async (req, res, next) => {
+booksRouter.get('/:id/reviews', userAuth, async (req, res, next) => {
     await booksController.getReviews(req.params.id)
-        .then(data => res.status(200).send({ status: "success", data: data }))
-        .catch(error => next(error));
+        .then(data => {
+            logger.info(`User with id [${req.user.id}] read book reviews with id: [${req.params.id}]`);
+            res.status(200).send({ status: "success", data: data })
+        }).catch(error => next(error));
 });
 
-booksRouter.patch('/:id', async (req, res, next) => {
+booksRouter.patch('/:id', userAuth, async (req, res, next) => {
+    if (req.user.role !== 'admin') {
+        logger.warn(`Unauthorized user list access attempt by: ${req.user.id}`);
+        return res.status(403).send({ status: "failed", data: "You do not have permission to perform this action." });
+    }
+
     await booksController.update(req.params.id, ...req.body)
-        .then(data => res.status(200).send({ status: "success", data: req.body }))
-        .catch(error => next(error));
+        .then(data => {
+            logger.info(`Admin with id [${req.user.id}] updated a book with id: [${req.params.id}]`);
+            res.status(200).send({ status: "success", data: req.body });
+        }).catch(error => next(error));
 });
 
-booksRouter.delete('/:id', async (req, res, next) => {
+booksRouter.delete('/:id', userAuth, async (req, res, next) => {
+    if (req.user.role !== 'admin') {
+        logger.warn(`Unauthorized user list access attempt by: ${req.user.id}`);
+        return res.status(403).send({ status: "failed", data: "You do not have permission to perform this action." });
+    }
+
     await booksController.remove(req.params.id)
-        .then(data => res.status(200).send({ status: "success", data: data }))
-        .catch(error => next(error));
+        .then(data => {
+            logger.info(`Admin with id [${req.user.id}] deleted a book with id: [${req.params.id}]`);
+            res.status(200).send({ status: "success", data: data })
+        }).catch(error => next(error));
 });
 
 export default booksRouter;

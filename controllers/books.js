@@ -1,4 +1,5 @@
 import Book from '../models/BookModel.js';
+import { getBookReviews } from './ReviewsController.js';
 
 const create = (bookData) => {
     return Book.insertOne(bookData);
@@ -12,8 +13,8 @@ const getById = (bookId) => {
     return Book.findById(bookId);
 }
 
-const getReviews = () => {
-    // Import reviews controller, then call a function to retrieve the reviews by Book ID
+const getReviews = (bookId) => {
+    return getBookReviews(bookId);
 }
 
 const update = (bookId, newData) => {
