@@ -1,6 +1,6 @@
 import express from "express";
 import { createReview, getReviewById, updateReview, deleteReview } from "../controllers/ReviewsController.js";
-import authMiddleware from "../middlewares/authMiddleware.js"; 
+import authMiddleware from "../middlewares/AuthMiddleware.js"; 
 
 const router = express.Router();
 
