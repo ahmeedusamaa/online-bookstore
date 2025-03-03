@@ -16,5 +16,9 @@ const authorSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
+authorSchema.set("toJSON", {
+    transform: (doc, { __v, createdAt, updatedAt, ...rest }) => rest,
+});
+
 const Author = mongoose.model('Author', authorSchema);
 export default Author;

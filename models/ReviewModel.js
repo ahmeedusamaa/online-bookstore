@@ -24,5 +24,10 @@ const reviewSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
+reviewSchema.set("toJSON", {
+    transform: (doc, { __v, ...rest }) => rest
+});
+
+
 const Review = mongoose.model('Review', reviewSchema);
 export default Review;

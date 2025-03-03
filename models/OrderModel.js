@@ -23,5 +23,9 @@ const orderSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
+orderSchema.set("toJSON", {
+    transform: (doc, { __v, createdAt, updatedAt, ...rest }) => rest,
+});
+
 const Order = mongoose.model('Order', orderSchema);
 export default Order;
