@@ -22,7 +22,7 @@ booksRouter.post('/', userAuth, upload.single('Image'), async (req, res, next) =
 booksRouter.get('/', userAuth, async (req, res, next) => {
     const limit = req.query.limit || 4;
     const skip = ((req.query.page || 1) - 1) * limit;
-    await booksController.getMany(skip, limit)
+    await booksController.getMany(req.body, skip, limit)
         .then(data => {
             logger.info(`User with id [${req.user.id}] read books data`);
             res.status(200).send({ status: "success", data: data })

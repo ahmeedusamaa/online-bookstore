@@ -5,8 +5,8 @@ const create = (bookData) => {
     return Book.insertOne(bookData);
 }
 
-const getMany = (skip, limit) => {
-    return Book.find().skip(skip).limit(limit);
+const getMany = (filter, skip, limit) => {
+    return Book.find(filter).skip(skip).limit(limit);
 }
 
 const getById = (bookId) => {
