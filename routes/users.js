@@ -9,11 +9,16 @@ import {
   getUserReviews,
   getUserOrders,
 } from "../controllers/UserController.js";
+import {
+  regValidation,
+  loginValidation,
+} from "../validations/UserValidation.js";
 import userAuth from "../middlewares/AuthMiddleware.js";
+import validate from "../middlewares/ValidationMiddleware.js";
 
 const usersRouter = express.Router();
-usersRouter.post("/register", regUsr);
-usersRouter.post("/login", LoginUsr);
+usersRouter.post("/register", regValidation, validate, regUsr);
+usersRouter.post("/login", loginValidation, validate, LoginUsr);
 usersRouter.post("/logout", userAuth, LogOut);
 usersRouter.patch("/:id", userAuth, updateUsr);
 usersRouter.get("/", userAuth, getUsrsPag);
