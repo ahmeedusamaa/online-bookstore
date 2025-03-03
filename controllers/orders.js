@@ -1,19 +1,42 @@
 import Order from "../models/OrderModel.js";
 import Book from "../models/BookModel.js";
+import mongoose from "mongoose";
 
 const create = async (orderData, userId) => {
-    const { books, totalPrice } = orderData;
+    const session = await mongoose.startSession();
+    session.startTransaction();
 
-    if (!books || books.length === 0 || totalPrice < 0) {
-        throw new Error("Invalid order data");
+    try {
+        const { books, totalPrice } = orderData;
+
+        if (!books || books.length === 0 || totalPrice < 0) {
+            throw new Error("Invalid order data");
+        }
+
+        const validBooks = await Book.find({ _id: { $in: books } }).session(session);
+        if (validBooks.length !== books.length) {
+            throw new Error("One or more books not found");
+        }
+
+        for (const book of validBooks) {
+            if (book.Stock <= 0) {
+                throw new Error(`Book ${book.Title} is out of stock`);
+            }
+            book.Stock -= 1;
+            await book.save({ session });
+        }
+
+        const order = await Order.create([{ User_ID: userId, Books: books, TotalPrice: totalPrice }], { session });
+
+        await session.commitTransaction();
+        session.endSession();
+
+        return order[0];
+    } catch (error) {
+        await session.abortTransaction();
+        session.endSession();
+        throw error;
     }
-
-    const validBooks = await Book.find({ _id: { $in: books } });
-    if (validBooks.length !== books.length) {
-        throw new Error("Book or more not found");
-    }
-
-    return Order.create({ User_ID: userId, Books: books, TotalPrice: totalPrice });
 };
 
 const getMany = (skip, limit) => {
