@@ -1,20 +1,22 @@
+import mongoose from "mongoose";
 import Order from "../models/OrderModel.js";
 import Book from "../models/BookModel.js";
-import mongoose from "mongoose";
+import User from "../models/UserModel.js";
+import sendEmail from "../services/mail.js";
 
 const create = async (orderData, userId) => {
     const session = await mongoose.startSession();
     session.startTransaction();
 
     try {
-        const { books, totalPrice } = orderData;
+        const { Books, TotalPrice } = orderData;
 
-        if (!books || books.length === 0 || totalPrice < 0) {
+        if (!Books || Books.length === 0 || TotalPrice < 0) {
             throw new Error("Invalid order data");
         }
 
-        const validBooks = await Book.find({ _id: { $in: books } }).session(session);
-        if (validBooks.length !== books.length) {
+        const validBooks = await Book.find({ _id: { $in: Books } }).session(session);
+        if (validBooks.length !== Books.length) {
             throw new Error("One or more books not found");
         }
 
@@ -26,10 +28,12 @@ const create = async (orderData, userId) => {
             await book.save({ session });
         }
 
-        const order = await Order.create([{ User_ID: userId, Books: books, TotalPrice: totalPrice }], { session });
+        const order = await Order.create([{ User_ID: userId, Books: Books, TotalPrice: TotalPrice }], { session });
 
         await session.commitTransaction();
-        session.endSession();
+
+        const { Name, Email } = await User.findById(userId);
+        sendEmail(Email, 'Order Confirmation', `Dear ${Name},\nThank you for your order!\nWe will notify you once your order is shipped.\n\nBest regards,\nOnline Bookstore`);
 
         return order[0];
     } catch (error) {

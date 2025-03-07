@@ -4,6 +4,7 @@ import Review from "../models/ReviewModel.js";
 import Order from "../models/OrderModel.js";
 import { logger } from "../middlewares/LoggerMiddleware.js";
 import { generateToken } from "../utils/tokenUtil.js";
+import sendEmail from '../services/mail.js';
 
 export const regUsr = async (req, res, next) => {
   try {
@@ -22,6 +23,7 @@ export const regUsr = async (req, res, next) => {
     await newUser.save();
 
     const token = generateToken({ id: newUser._id, role: newUser.Role });
+    if (Role === 'customer') sendEmail(Email, 'Welcome to our store', `Dear ${Name},\nWe are pleased to have you in our store.`);
     logger.info(`User registered successfully: ${Email}`);
     res.status(201).json({
       status: "success",
