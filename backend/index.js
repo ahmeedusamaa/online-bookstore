@@ -2,11 +2,12 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-import { errHandler } from "./middlewares/ErrHandlerMiddleware.js";
-import { loggerMiddleware, logger } from "./middlewares/LoggerMiddleware.js";
-import router from "./routes/index.js";
+import { errHandler } from "../middlewares/ErrHandlerMiddleware.js";
+import { loggerMiddleware, logger } from "../middlewares/LoggerMiddleware.js";
+import router from "../routes/index.js";
 
 dotenv.config();
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -28,6 +29,5 @@ mongoose.connection.on("error", (err) => {
 app.use("/covers", express.static("uploads"));
 app.use(router);
 app.use(errHandler);
-
 
 export default app;
