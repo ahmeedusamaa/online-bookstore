@@ -35,12 +35,12 @@ booksRouter.post(
   }
 );
 
-booksRouter.get('/', userAuth, async (req, res, next) => {
+booksRouter.get('/', async (req, res, next) => {
   const limit = req.query.limit || 4;
   const skip = ((req.query.page || 1) - 1) * limit;
   await booksController.getMany(req.body, skip, limit)
     .then(data => {
-      logger.info(`User with id[${req.user.id}] read books data`);
+      logger.info(`User read books data`);
       res.status(200).send({ status: "success", data: data })
     }).catch(error => next(error));
 });
