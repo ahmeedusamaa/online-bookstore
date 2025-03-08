@@ -39,6 +39,9 @@ An advanced e-commerce platform for book shopping, built using Node.js, Express.
   - Error handling
   - Logging with Winston
 
+## Entity Relationship Diagram (ERD)
+![ERD Diagram](screenshots/ERD.jpg)
+
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -82,6 +85,10 @@ npm run dev
 ```
 
 The server should now be running at `http://localhost:3000`.
+
+## API Server  
+Currently the web application is running on this domain
+[![Server Status](https://img.shields.io/badge/API%20Server-Online-brightgreen)](https://online-bookstore-gdhy.onrender.com)  
 
 ## 🔗 API Endpoints
 
