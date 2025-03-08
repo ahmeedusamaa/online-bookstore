@@ -86,46 +86,46 @@ The server should now be running at `http://localhost:3000`.
 ## 🔗 API Endpoints
 
 ### Authentication & User Management
-- `POST /api/users/register` - Register a new user
-- `POST /api/users/login` - User login
-- `POST /api/users/logout` - User logout (requires authentication)
-- `PATCH /api/users/:id` - Update user profile (requires authentication)
-- `GET /api/users` - Get all users with pagination (requires authentication)
-- `GET /api/users/:id` - Get user by ID (requires authentication)
-- `GET /api/users/:id/reviews` - Get reviews written by a specific user (requires authentication)
-- `GET /api/users/:id/orders` - Get orders made by a specific user (requires authentication)
+- `POST /users/register` - Register a new user
+- `POST /users/login` - User login
+- `POST /users/logout` - User logout (requires authentication)
+- `PATCH /users/:id` - Update user profile (requires authentication)
+- `GET /users` - Get all users with pagination (requires authentication)
+- `GET /users/:id` - Get user by ID (requires authentication)
+- `GET /users/:id/reviews` - Get reviews written by a specific user (requires authentication)
+- `GET /users/:id/orders` - Get orders made by a specific user (requires authentication)
 
 ### Books
-- `POST /api/books` - Add a new book (admin only)
-- `GET /api/books` - Get all books with pagination (requires authentication)
-- `GET /api/books/:id` - Get book details by ID (requires authentication)
-- `GET /api/books/:id/reviews` - Get reviews for a specific book (requires authentication)
-- `PATCH /api/books/:id` - Update a book (admin only)
-- `DELETE /api/books/:id` - Delete a book (admin only)
+- `POST /books` - Add a new book (admin only)
+- `GET /books` - Get all books with pagination (requires authentication)
+- `GET /books/:id` - Get book details by ID (requires authentication)
+- `GET /books/:id/reviews` - Get reviews for a specific book (requires authentication)
+- `PATCH /books/:id` - Update a book (admin only)
+- `DELETE /books/:id` - Delete a book (admin only)
 
 ### Authors
-- `POST /api/authors/create` - Create a new author (admin only)
-- `GET /api/authors` - Get all authors
-- `GET /api/authors/:id` - Get author details by ID
-- `PUT /api/authors/:id` - Update an author (admin only)
-- `DELETE /api/authors/:id` - Delete an author (admin only)
+- `POST /authors/create` - Create a new author (admin only)
+- `GET /authors` - Get all authors
+- `GET /authors/:id` - Get author details by ID
+- `PUT /authors/:id` - Update an author (admin only)
+- `DELETE /authors/:id` - Delete an author (admin only)
 
 ### Cart
-- `POST /api/cart` - Add a book to the user's cart (requires authentication)
-- `DELETE /api/cart/:id` - Remove a book from the user's cart (requires authentication)
-- `GET /api/cart` - Get the contents of the user's cart (requires authentication)
+- `POST /cart` - Add a book to the user's cart (requires authentication)
+- `DELETE /cart/:id` - Remove a book from the user's cart (requires authentication)
+- `GET /cart` - Get the contents of the user's cart (requires authentication)
 
 ### Orders
-- `POST /api/orders` - Create a new order (requires authentication)
-- `GET /api/orders` - Get all orders with pagination (admin only)
-- `GET /api/orders/:id` - Get order details by ID (admin only)
-- `DELETE /api/orders/:id` - Delete an order (admin only)
+- `POST /orders` - Create a new order (requires authentication)
+- `GET /orders` - Get all orders with pagination (admin only)
+- `GET /orders/:id` - Get order details by ID (admin only)
+- `DELETE /orders/:id` - Delete an order (admin only)
 
 ### Reviews
-- `POST /api/reviews` - Create a new review (requires authentication)
-- `GET /api/reviews/:id` - Get review details by ID
-- `PUT /api/reviews/:id` - Update a review (requires authentication)
-- `DELETE /api/reviews/:id` - Delete a review (requires authentication)
+- `POST /reviews` - Create a new review (requires authentication)
+- `GET /reviews/:id` - Get review details by ID
+- `PUT /reviews/:id` - Update a review (requires authentication)
+- `DELETE /reviews/:id` - Delete a review (requires authentication)
 
 ### Backend Structure
 
