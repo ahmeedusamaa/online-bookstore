@@ -131,12 +131,6 @@ const CartAPI = {
     });
   },
 
-  updateQuantity: (bookId, quantity) => {
-    return fetchAPI(`/cart/${bookId}`, {
-      method: "PATCH",
-      body: JSON.stringify({ quantity: quantity }),
-    });
-  },
 };
 
 // Orders API
